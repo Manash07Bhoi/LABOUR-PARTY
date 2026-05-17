@@ -1,3 +1,17 @@
+import '../reports/reports_screen.dart';
+
+import '../settings/about_screen.dart';
+
+import '../settings/settings_screen.dart';
+
+import '../management/place_screen.dart';
+
+import '../management/tractor_screen.dart';
+
+import '../management/driver_screen.dart';
+
+import '../management/labour_screen.dart';
+
 import '../work/add_work_screen.dart';
 
 import 'package:flutter/material.dart';
@@ -22,7 +36,7 @@ class _MainShellScreenState extends State<MainShellScreen> {
   final List<Widget> _screens = [
     const DashboardScreen(),
     const WorkRecordsScreen(),
-    const Center(child: Text('Reports - TODO')),      // ReportsScreen
+    const ReportsScreen(),      // ReportsScreen
   ];
 
   @override
@@ -97,13 +111,13 @@ class _MainShellScreenState extends State<MainShellScreen> {
                 ],
               ),
             ),
-            _buildDrawerItem(Icons.people_outline, 'Labours', () {}),
-            _buildDrawerItem(Icons.local_shipping_outlined, 'Drivers', () {}),
-            _buildDrawerItem(Icons.agriculture_outlined, 'Tractors', () {}),
-            _buildDrawerItem(Icons.place_outlined, 'Places', () {}),
+            _buildDrawerItem(Icons.people_outline, 'Labours', () { Navigator.of(context).push(MaterialPageRoute(builder: (_) => const LabourScreen())); }),
+            _buildDrawerItem(Icons.local_shipping_outlined, 'Drivers', () { Navigator.of(context).push(MaterialPageRoute(builder: (_) => const DriverScreen())); }),
+            _buildDrawerItem(Icons.agriculture_outlined, 'Tractors', () { Navigator.of(context).push(MaterialPageRoute(builder: (_) => const TractorScreen())); }),
+            _buildDrawerItem(Icons.place_outlined, 'Places', () { Navigator.of(context).push(MaterialPageRoute(builder: (_) => const PlaceScreen())); }),
             const Divider(color: AppColors.textDisabled),
-            _buildDrawerItem(Icons.settings_outlined, 'Settings', () {}),
-            _buildDrawerItem(Icons.info_outline, 'About', () {}),
+            _buildDrawerItem(Icons.settings_outlined, 'Settings', () { Navigator.of(context).push(MaterialPageRoute(builder: (_) => const SettingsScreen())); }),
+            _buildDrawerItem(Icons.info_outline, 'About', () { Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AboutScreen())); }),
           ],
         ),
       ),
