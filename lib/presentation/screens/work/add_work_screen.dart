@@ -149,7 +149,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         labourIds: _selectedLabourIds,
         labourCount: _selectedLabourIds.length,
         totalAmount: totalAmount,
-        amountPerLabour: 0.0, // Domain layer recalculates this
+        amountPerLabour: _calculatedAmountPerLabour,
         driverId: _selectedDriverId,
         driverName: _selectedDriverName,
         tractorId: _selectedTractorId,
@@ -179,7 +179,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
           );
         }
       },
-      child: Scaffold(
+      child: PopScope(canPop: false, onPopInvoked: (didPop) async { if (didPop) return; if (_nameController.text.isNotEmpty || _amountController.text.isNotEmpty) { final shouldPop = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(title: const Text('Discard Changes?'), content: const Text('You have unsaved changes. Are you sure you want to discard them?'), actions: [TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')), ElevatedButton(onPressed: () => Navigator.of(ctx).pop(true), style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorRed), child: const Text('Discard'))])) ?? false; if (shouldPop child: Scaffold(child: Scaffold( context.mounted) { Navigator.of(context).pop(); } } else { Navigator.of(context).pop(); } }, child: Scaffold(
         appBar: CustomAppBar(
           title: widget.editWork != null ? 'Edit Work' : 'Add Work',
         ),
