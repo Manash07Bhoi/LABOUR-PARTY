@@ -1,3 +1,5 @@
+# Update WorkUseCase to compute amountPerLabour
+cat << 'INNER_EOF' > lib/domain/usecases/work_usecases.dart
 import '../entities/work.dart';
 import '../repositories/work_repository.dart';
 
@@ -76,3 +78,4 @@ class GetAllWorksUseCase {
     return await repository.getAllWorks();
   }
 }
+INNER_EOF
