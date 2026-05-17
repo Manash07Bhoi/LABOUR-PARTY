@@ -18,3 +18,5 @@
 ## Core Android
 -dontwarn android.support.**
 -keep class android.support.** { *; }
+-dontwarn com.google.android.play.core.**
+-keep class com.google.android.play.core.** { *; }

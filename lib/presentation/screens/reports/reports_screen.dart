@@ -176,33 +176,19 @@ class _ReportsScreenState extends State<ReportsScreen> {
             color: AppColors.backgroundCard,
             borderRadius: BorderRadius.circular(20),
           ),
-          child: LineChart(
-            LineChartData(
-              gridData: const FlGridData(show: false),
-              titlesData: FlTitlesData(
-                show: true,
-                rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
-                bottomTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 30,
-                    interval: 1,
-                    getTitlesWidget: (value, meta) {
-                      if (_isWeekly) {
-                        final keys = state.chartMap.keys.toList();
-                        if (value.toInt() >= 0 && value.toInt() < keys.length) {
-                          return Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text(
-                              keys[value.toInt()],
-                              style: AppTypography.bodyMedium.copyWith(fontSize: 10),
-                            ),
-                          );
-                        }
-                      } else {
-                        // For monthly, only show every 5th day to avoid crowding
-                        if (value.toInt() % 5 == 0) {
+          child: _isWeekly
+            ? BarChart(
+                BarChartData(
+                  gridData: const FlGridData(show: false),
+                  titlesData: FlTitlesData(
+                    show: true,
+                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 30,
+                        getTitlesWidget: (value, meta) {
                           final keys = state.chartMap.keys.toList();
                           if (value.toInt() >= 0 && value.toInt() < keys.length) {
                             return Padding(
@@ -213,55 +199,129 @@ class _ReportsScreenState extends State<ReportsScreen> {
                               ),
                             );
                           }
-                        }
-                      }
-                      return const Text('');
-                    },
-                  ),
-                ),
-                leftTitles: AxisTitles(
-                  sideTitles: SideTitles(
-                    showTitles: true,
-                    reservedSize: 45,
-                    getTitlesWidget: (value, meta) {
-                      if (value == 0) return const Text('');
-                      return Text(
-                        NumberFormat.compactCurrency(symbol: '₹').format(value),
-                        style: AppTypography.bodyMedium.copyWith(fontSize: 10),
-                      );
-                    },
-                  ),
-                ),
-              ),
-              borderData: FlBorderData(show: false),
-              minX: 0,
-              maxX: state.reportData.amountChartData.length.toDouble() - 1,
-              minY: 0,
-              lineBarsData: [
-                LineChartBarData(
-                  spots: state.reportData.amountChartData,
-                  isCurved: true,
-                  color: AppColors.accentCyanLight,
-                  barWidth: 3,
-                  isStrokeCapRound: true,
-                  dotData: const FlDotData(show: false),
-                  belowBarData: BarAreaData(
-                    show: true,
-                    gradient: LinearGradient(
-                      colors: [
-                        AppColors.accentCyanLight.withOpacity(0.5),
-                        AppColors.accentCyanLight.withOpacity(0.0),
-                      ],
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
+                          return const Text('');
+                        },
+                      ),
+                    ),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 45,
+                        getTitlesWidget: (value, meta) {
+                          if (value == 0) return const Text('');
+                          return Text(
+                            NumberFormat.compactCurrency(symbol: '₹').format(value),
+                            style: AppTypography.bodyMedium.copyWith(fontSize: 10),
+                          );
+                        },
+                      ),
                     ),
                   ),
+                  borderData: FlBorderData(show: false),
+                  barGroups: _buildBarGroups(state.chartMap),
                 ),
-              ],
-            ),
-          ),
+              )
+            : LineChart(
+                LineChartData(
+                  gridData: const FlGridData(show: false),
+                  titlesData: FlTitlesData(
+                    show: true,
+                    rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+                    bottomTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 30,
+                        interval: 1,
+                        getTitlesWidget: (value, meta) {
+                          // For monthly, only show every 5th day to avoid crowding
+                          if (value.toInt() % 5 == 0) {
+                            final keys = state.chartMap.keys.toList();
+                            if (value.toInt() >= 0 && value.toInt() < keys.length) {
+                              return Padding(
+                                padding: const EdgeInsets.only(top: 8.0),
+                                child: Text(
+                                  keys[value.toInt()],
+                                  style: AppTypography.bodyMedium.copyWith(fontSize: 10),
+                                ),
+                              );
+                            }
+                          }
+                          return const Text('');
+                        },
+                      ),
+                    ),
+                    leftTitles: AxisTitles(
+                      sideTitles: SideTitles(
+                        showTitles: true,
+                        reservedSize: 45,
+                        getTitlesWidget: (value, meta) {
+                          if (value == 0) return const Text('');
+                          return Text(
+                            NumberFormat.compactCurrency(symbol: '₹').format(value),
+                            style: AppTypography.bodyMedium.copyWith(fontSize: 10),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                  borderData: FlBorderData(show: false),
+                  minX: 0,
+                  maxX: state.chartMap.length.toDouble() - 1,
+                  minY: 0,
+                  lineBarsData: [
+                    LineChartBarData(
+                      spots: _buildLineSpots(state.chartMap),
+                      isCurved: true,
+                      color: AppColors.accentCyanLight,
+                      barWidth: 3,
+                      isStrokeCapRound: true,
+                      dotData: const FlDotData(show: false),
+                      belowBarData: BarAreaData(
+                        show: true,
+                        gradient: LinearGradient(
+                          colors: [
+                            AppColors.accentCyanLight.withOpacity(0.5),
+                            AppColors.accentCyanLight.withOpacity(0.0),
+                          ],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
         ),
       ],
     );
+  }
+
+  List<BarChartGroupData> _buildBarGroups(Map<String, double> chartMap) {
+    int x = 0;
+    return chartMap.entries.map((entry) {
+      final barGroup = BarChartGroupData(
+        x: x,
+        barRods: [
+          BarChartRodData(
+            toY: entry.value,
+            color: AppColors.accentCyanLight,
+            width: 16,
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ],
+      );
+      x++;
+      return barGroup;
+    }).toList();
+  }
+
+  List<FlSpot> _buildLineSpots(Map<String, double> chartMap) {
+    int x = 0;
+    return chartMap.entries.map((entry) {
+      final spot = FlSpot(x.toDouble(), entry.value);
+      x++;
+      return spot;
+    }).toList();
   }
 }

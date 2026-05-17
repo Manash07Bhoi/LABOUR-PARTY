@@ -28,7 +28,7 @@ class _WorkRecordsScreenState extends State<WorkRecordsScreen> {
   @override
   void initState() {
     super.initState();
-    // In real usage, this might be triggered initially by MainShell
+    context.read<WorkBloc>().add(LoadAllWorksEvent());
   }
 
   @override
@@ -69,13 +69,14 @@ class _WorkRecordsScreenState extends State<WorkRecordsScreen> {
         Expanded(
           child: BlocBuilder<WorkBloc, WorkState>(
             buildWhen: (previous, current) {
-              return current is WorkLoadingState || 
+              return current is WorkInitial ||
+                     current is WorkLoadingState ||
                      current is WorkListLoadedState || 
                      current is WorkEmptyState || 
                      current is WorkErrorState;
             },
             builder: (context, state) {
-              if (state is WorkLoadingState) {
+              if (state is WorkInitial || state is WorkLoadingState) {
                 return const ListSkeletonLoader();
               } else if (state is WorkEmptyState) {
                 return EmptyStateWidget(

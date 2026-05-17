@@ -98,14 +98,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.people, color: AppColors.infoBlue),
+                        const Icon(Icons.drive_eta_rounded, color: AppColors.infoBlue),
                         const SizedBox(height: 8),
                         Text(
-                          '${state.activeLabours}',
+                          '${state.activeDrivers}',
                           style: AppTypography.headlineMedium,
                         ),
                         Text(
-                          'Active Labours',
+                          'Active Drivers',
                           style: AppTypography.bodyMedium,
                         ),
                       ],
