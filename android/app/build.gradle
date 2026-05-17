@@ -24,6 +24,11 @@ if (flutterVersionName == null) {
 
 android {
     namespace "com.roshan.labourparty"
+    packagingOptions {
+        exclude 'lib/x86/libflutter.so'
+        exclude 'lib/x86_64/libflutter.so'
+        exclude 'lib/armeabi-v7a/libflutter.so'
+    }
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 
