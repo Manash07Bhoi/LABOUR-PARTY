@@ -17,6 +17,8 @@ class Work extends Equatable {
   final DateTime createdAt;
   final DateTime updatedAt;
 
+  double get amountPerLabour => labourCount > 0 ? totalAmount / labourCount : 0.0;
+
   const Work({
     required this.id,
     required this.workName,
