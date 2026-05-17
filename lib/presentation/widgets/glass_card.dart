@@ -23,16 +23,16 @@ class GlassCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GlassContainer(
       blur: blur,
-      color: Colors.white.withOpacity(opacity),
+      color: Colors.white.withValues(alpha: opacity),
       gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         colors: [
           AppColors.glassWhite,
-          Colors.white.withOpacity(0.05),
+          Colors.white.withValues(alpha: 0.05),
         ],
       ),
-      border: Border.fromBorderSide(BorderSide(
+      border: const Border.fromBorderSide(BorderSide(
         color: AppColors.glassBorder,
         width: 1,
       )),
@@ -40,7 +40,7 @@ class GlassCard extends StatelessWidget {
       borderRadius: borderRadius != null
           ? (borderRadius as BorderRadius)
           : BorderRadius.circular(20),
-      shadowColor: Colors.black.withOpacity(0.25),
+      shadowColor: Colors.black.withValues(alpha: 0.25),
       child: Padding(
         padding: padding,
         child: child,

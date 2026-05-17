@@ -55,7 +55,7 @@ class GetLaboursWithStatsUseCase {
       for (var work in works) {
         if (work.labourIds.contains(labour.id)) {
           joinedWorks++;
-          totalEarned += work.amountPerLabour;
+          totalEarned += work.labourCount > 0 ? work.totalAmount / work.labourCount : 0.0;
         }
       }
 

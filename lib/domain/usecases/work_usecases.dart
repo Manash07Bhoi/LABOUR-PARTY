@@ -6,27 +6,7 @@ class AddWorkUseCase {
   AddWorkUseCase(this.repository);
 
   Future<void> call(Work work) async {
-    // Recompute amountPerLabour
-    final computedAmount = work.labourCount > 0 ? work.totalAmount / work.labourCount : 0.0;
-    final finalWork = Work(
-      id: work.id,
-      workName: work.workName,
-      date: work.date,
-      placeId: work.placeId,
-      placeName: work.placeName,
-      labourIds: work.labourIds,
-      labourCount: work.labourCount,
-      totalAmount: work.totalAmount,
-      amountPerLabour: computedAmount,
-      driverId: work.driverId,
-      driverName: work.driverName,
-      tractorId: work.tractorId,
-      tractorName: work.tractorName,
-      sandTrips: work.sandTrips,
-      createdAt: work.createdAt,
-      updatedAt: work.updatedAt,
-    );
-    return await repository.addWork(finalWork);
+    return await repository.addWork(work);
   }
 }
 
@@ -35,27 +15,7 @@ class UpdateWorkUseCase {
   UpdateWorkUseCase(this.repository);
 
   Future<void> call(Work work) async {
-    // Recompute amountPerLabour
-    final computedAmount = work.labourCount > 0 ? work.totalAmount / work.labourCount : 0.0;
-    final finalWork = Work(
-      id: work.id,
-      workName: work.workName,
-      date: work.date,
-      placeId: work.placeId,
-      placeName: work.placeName,
-      labourIds: work.labourIds,
-      labourCount: work.labourCount,
-      totalAmount: work.totalAmount,
-      amountPerLabour: computedAmount,
-      driverId: work.driverId,
-      driverName: work.driverName,
-      tractorId: work.tractorId,
-      tractorName: work.tractorName,
-      sandTrips: work.sandTrips,
-      createdAt: work.createdAt,
-      updatedAt: work.updatedAt,
-    );
-    return await repository.updateWork(finalWork);
+    return await repository.updateWork(work);
   }
 }
 

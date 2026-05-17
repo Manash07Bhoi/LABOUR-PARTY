@@ -25,7 +25,6 @@ class WorkModelAdapter extends TypeAdapter<WorkModel> {
       labourIds: (fields[5] as List).cast<String>(),
       labourCount: fields[6] as int,
       totalAmount: fields[7] as double,
-      amountPerLabour: fields[8] as double,
       driverId: fields[9] as String?,
       driverName: fields[10] as String?,
       tractorId: fields[11] as String?,
@@ -39,7 +38,7 @@ class WorkModelAdapter extends TypeAdapter<WorkModel> {
   @override
   void write(BinaryWriter writer, WorkModel obj) {
     writer
-      ..writeByte(16)
+      ..writeByte(15)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -56,8 +55,6 @@ class WorkModelAdapter extends TypeAdapter<WorkModel> {
       ..write(obj.labourCount)
       ..writeByte(7)
       ..write(obj.totalAmount)
-      ..writeByte(8)
-      ..write(obj.amountPerLabour)
       ..writeByte(9)
       ..write(obj.driverId)
       ..writeByte(10)

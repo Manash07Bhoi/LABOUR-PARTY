@@ -29,8 +29,12 @@ import 'domain/repositories/labour_repository.dart';
 import 'domain/repositories/place_repository.dart';
 import 'domain/repositories/tractor_repository.dart';
 import 'domain/repositories/work_repository.dart';
+import 'domain/repositories/settings_repository.dart';
+
+import 'data/repositories/settings_repository_impl.dart';
 
 import 'domain/usecases/driver_usecases.dart';
+import 'domain/usecases/settings_usecases.dart';
 import 'domain/usecases/labour_usecases.dart';
 import 'domain/usecases/place_usecases.dart';
 import 'domain/usecases/report_usecases.dart';
@@ -94,11 +98,18 @@ class LabourPartyApp extends StatelessWidget {
         RepositoryProvider<PlaceRepository>(
           create: (context) => PlaceRepositoryImpl(PlaceLocalDatasource()),
         ),
+        RepositoryProvider<SettingsRepository>(
+          create: (context) => SettingsRepositoryImpl(),
+        ),
       ],
       child: MultiBlocProvider(
         providers: [
           BlocProvider<SettingsBloc>(
-            create: (context) => SettingsBloc()..add(LoadSettingsEvent()),
+            create: (context) => SettingsBloc(
+              getSettings: GetSettingsUseCase(context.read<SettingsRepository>()),
+              saveSettings: SaveSettingsUseCase(context.read<SettingsRepository>()),
+              clearAllData: ClearAllDataUseCase(context.read<SettingsRepository>()),
+            )..add(LoadSettingsEvent()),
           ),
           BlocProvider<WorkBloc>(
             create: (context) => WorkBloc(
