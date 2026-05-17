@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.roshan.labourparty.labour_party"
+    namespace = "com.roshan.labourparty"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
