@@ -40,15 +40,24 @@ class WorkBloc extends Bloc<WorkEvent, WorkState> {
     emit(WorkLoadingState());
     try {
       final works = await getAllWorks();
-      final labours = await getAllLabours();
+
+      if (works.isEmpty) {
+        emit(WorkEmptyState());
+        return;
+      }
 
       final now = DateTime.now();
       final todayWorks = works.where((w) => _isSameDay(w.date, now)).toList();
 
       // Today's labour count (unique)
       final Set<String> todayLabourIds = {};
+      final Set<String> activeDriverIds = {};
+
       for (var w in todayWorks) {
         todayLabourIds.addAll(w.labourIds);
+        if (w.driverId != null) {
+          activeDriverIds.add(w.driverId!);
+        }
       }
 
       double todayTotalAmount = 0;
@@ -68,7 +77,7 @@ class WorkBloc extends Bloc<WorkEvent, WorkState> {
         todayWorksCount: todayWorks.length,
         totalSpent: todayTotalAmount,
         totalSandTrips: todaySandTrips,
-        activeLabours: labours.length, // PRD says active labours as a general stat
+        activeDrivers: activeDriverIds.length,
         todayLaboursCount: todayLabourIds.length,
       ));
     } catch (e) {

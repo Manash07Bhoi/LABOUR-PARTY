@@ -16,7 +16,7 @@ class DashboardLoadedState extends WorkState {
   final int todayWorksCount;
   final double totalSpent;
   final int totalSandTrips;
-  final int activeLabours;
+  final int activeDrivers;
   final int todayLaboursCount;
 
   const DashboardLoadedState({
@@ -24,7 +24,7 @@ class DashboardLoadedState extends WorkState {
     required this.todayWorksCount,
     required this.totalSpent,
     required this.totalSandTrips,
-    required this.activeLabours,
+    required this.activeDrivers,
     required this.todayLaboursCount,
   });
 
@@ -34,7 +34,7 @@ class DashboardLoadedState extends WorkState {
     todayWorksCount,
     totalSpent,
     totalSandTrips,
-    activeLabours,
+    activeDrivers,
     todayLaboursCount
   ];
 }

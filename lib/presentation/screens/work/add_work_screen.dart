@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 
 import '../../../core/constants/app_colors.dart';
@@ -123,7 +122,7 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
     }
   }
 
-  void _saveWork() {
+  void _saveWork(BuildContext context) {
     if (_formKey.currentState!.validate()) {
       if (_selectedPlaceId == null) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -179,40 +178,68 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
           );
         }
       },
-      child: PopScope(canPop: false, onPopInvokedWithResult: (didPop, result) async { if (didPop) return; if (_nameController.text.isNotEmpty || _amountController.text.isNotEmpty) { final shouldPop = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(title: const Text('Discard Changes?'), content: const Text('You have unsaved changes. Are you sure you want to discard them?'), actions: [TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')), ElevatedButton(onPressed: () => Navigator.of(ctx).pop(true), style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorRed), child: const Text('Discard'))])) ?? false; if (shouldPop child: PopScope(canPop: false, onPopInvokedWithResult: (didPop, result) async { if (didPop) return; if (_nameController.text.isNotEmpty || _amountController.text.isNotEmpty) { final shouldPop = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(title: const Text('Discard Changes?'), content: const Text('You have unsaved changes. Are you sure you want to discard them?'), actions: [TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')), ElevatedButton(onPressed: () => Navigator.of(ctx).pop(true), style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorRed), child: const Text('Discard'))])) ?? false; if (shouldPop child: Scaffold(child: Scaffold( context.mounted) { Navigator.of(context).pop(); } } else { Navigator.of(context).pop(); } }, child: Scaffold(child: PopScope(canPop: false, onPopInvokedWithResult: (didPop, result) async { if (didPop) return; if (_nameController.text.isNotEmpty || _amountController.text.isNotEmpty) { final shouldPop = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(title: const Text('Discard Changes?'), content: const Text('You have unsaved changes. Are you sure you want to discard them?'), actions: [TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')), ElevatedButton(onPressed: () => Navigator.of(ctx).pop(true), style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorRed), child: const Text('Discard'))])) ?? false; if (shouldPop child: Scaffold(child: Scaffold( context.mounted) { Navigator.of(context).pop(); } } else { Navigator.of(context).pop(); } }, child: Scaffold( context.mounted) { Navigator.of(context).pop(); } } else { Navigator.of(context).pop(); } }, child: PopScope(canPop: false, onPopInvokedWithResult: (didPop, result) async { if (didPop) return; if (_nameController.text.isNotEmpty || _amountController.text.isNotEmpty) { final shouldPop = await showDialog<bool>(context: context, builder: (ctx) => AlertDialog(title: const Text('Discard Changes?'), content: const Text('You have unsaved changes. Are you sure you want to discard them?'), actions: [TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')), ElevatedButton(onPressed: () => Navigator.of(ctx).pop(true), style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorRed), child: const Text('Discard'))])) ?? false; if (shouldPop child: Scaffold(child: Scaffold( context.mounted) { Navigator.of(context).pop(); } } else { Navigator.of(context).pop(); } }, child: Scaffold(
-        appBar: CustomAppBar(
-          title: widget.editWork != null ? 'Edit Work' : 'Add Work',
-        ),
-        body: Form(
-          key: _formKey,
-          child: ListView(
-            padding: const EdgeInsets.all(16.0),
-            children: [
-              _buildBasicInfoSection(),
-              const SizedBox(height: 24),
-              _buildPlaceSelection(),
-              const SizedBox(height: 24),
-              _buildLabourSelection(),
-              const SizedBox(height: 24),
-              _buildAmountCalculationCard(),
-              const SizedBox(height: 24),
-              _buildVehicleSection(),
-              const SizedBox(height: 32),
-              ElevatedButton(
-                onPressed: _saveWork,
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                  backgroundColor: AppColors.accentCyanLight,
-                  foregroundColor: const Color(0xFF003740),
-                ),
-                child: Text(
-                  widget.editWork != null ? 'Update Work Record' : 'Save Work Record',
-                  style: AppTypography.titleLarge.copyWith(color: const Color(0xFF003740)),
-                ),
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) return;
+          if (_nameController.text.isNotEmpty || _amountController.text.isNotEmpty) {
+            final shouldPop = await showDialog<bool>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: const Text('Discard Changes?'),
+                content: const Text('You have unsaved changes. Are you sure you want to discard them?'),
+                actions: [
+                  TextButton(onPressed: () => Navigator.of(ctx).pop(false), child: const Text('Cancel')),
+                  ElevatedButton(
+                    onPressed: () => Navigator.of(ctx).pop(true),
+                    style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorRed),
+                    child: const Text('Discard'),
+                  ),
+                ],
               ),
-              const SizedBox(height: 32),
-            ],
+            ) ?? false;
+            if (shouldPop && context.mounted) {
+              Navigator.of(context).pop();
+            }
+          } else {
+            Navigator.of(context).pop();
+          }
+        },
+        child: Scaffold(
+          appBar: CustomAppBar(
+            title: widget.editWork != null ? 'Edit Work' : 'Add Work',
+          ),
+          body: Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(16.0),
+              children: [
+                _buildBasicInfoSection(),
+                const SizedBox(height: 24),
+                _buildPlaceSelection(),
+                const SizedBox(height: 24),
+                _buildLabourSelection(),
+                const SizedBox(height: 24),
+                _buildAmountCalculationCard(),
+                const SizedBox(height: 24),
+                _buildVehicleSection(),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: () => _saveWork(context),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+                    backgroundColor: AppColors.accentCyanLight,
+                    foregroundColor: const Color(0xFF003740),
+                  ),
+                  child: Text(
+                    widget.editWork != null ? 'Update Work Record' : 'Save Work Record',
+                    style: AppTypography.titleLarge.copyWith(color: const Color(0xFF003740)),
+                  ),
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
           ),
         ),
       ),
