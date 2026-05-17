@@ -74,7 +74,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
         totalWorks: totalWorks,
         totalSandTrips: totalSandTrips,
         amountChartData: amountChartData,
-        sandChartData: [], // Simplification for now, UI only shows one chart based on amount usually
+        sandChartData: const [], // Simplification for now, UI only shows one chart based on amount usually
         startDate: startOfDay,
         endDate: endOfDay,
       );
@@ -130,7 +130,7 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
         totalWorks: totalWorks,
         totalSandTrips: totalSandTrips,
         amountChartData: amountChartData,
-        sandChartData: [],
+        sandChartData: const [],
         startDate: startOfDay,
         endDate: endOfDay,
       );

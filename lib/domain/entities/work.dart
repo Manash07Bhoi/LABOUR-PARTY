@@ -9,7 +9,6 @@ class Work extends Equatable {
   final List<String> labourIds;
   final int labourCount;
   final double totalAmount;
-  final double amountPerLabour;
   final String? driverId;
   final String? driverName;
   final String? tractorId;
@@ -27,7 +26,6 @@ class Work extends Equatable {
     required this.labourIds,
     required this.labourCount,
     required this.totalAmount,
-    required this.amountPerLabour,
     this.driverId,
     this.driverName,
     this.tractorId,
@@ -47,7 +45,6 @@ class Work extends Equatable {
         labourIds,
         labourCount,
         totalAmount,
-        amountPerLabour,
         driverId,
         driverName,
         tractorId,

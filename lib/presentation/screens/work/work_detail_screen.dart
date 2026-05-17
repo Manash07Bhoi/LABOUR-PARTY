@@ -121,7 +121,7 @@ class WorkDetailScreen extends StatelessWidget {
                   children: [
                     Text('Amount per Labour', style: AppTypography.bodyMedium),
                     Text(
-                      CurrencyFormatter.format(work.amountPerLabour),
+                      CurrencyFormatter.format(work.labourCount > 0 ? work.totalAmount / work.labourCount : 0.0),
                       style: AppTypography.titleLarge,
                     ),
                   ],
@@ -210,7 +210,7 @@ class WorkDetailScreen extends StatelessWidget {
                         ),
                         title: Text(labour.name, style: AppTypography.bodyLarge),
                         trailing: Text(
-                          CurrencyFormatter.format(work.amountPerLabour),
+                          CurrencyFormatter.format(work.labourCount > 0 ? work.totalAmount / work.labourCount : 0.0),
                           style: AppTypography.bodyLarge.copyWith(color: AppColors.accentCyanLight),
                         ),
                       ),

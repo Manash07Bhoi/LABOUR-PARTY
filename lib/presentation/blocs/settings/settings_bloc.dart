@@ -1,42 +1,37 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:hive/hive.dart';
 
+import '../../../domain/usecases/settings_usecases.dart';
 import '../../../core/constants/hive_box_names.dart';
-import '../../../data/models/settings_model.dart';
-import '../../../core/utils/hive_helpers.dart';
 
 part 'settings_event.dart';
 part 'settings_state.dart';
 
 class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
-  SettingsBloc() : super(SettingsInitial()) {
+  final GetSettingsUseCase getSettings;
+  final SaveSettingsUseCase saveSettings;
+  final ClearAllDataUseCase clearAllData;
+
+  SettingsBloc({
+    required this.getSettings,
+    required this.saveSettings,
+    required this.clearAllData,
+  }) : super(SettingsInitial()) {
     on<LoadSettingsEvent>(_onLoadSettings);
     on<ToggleThemeEvent>(_onToggleTheme);
     on<ClearAllDataEvent>(_onClearAllData);
   }
 
   Future<void> _onLoadSettings(LoadSettingsEvent event, Emitter<SettingsState> emit) async {
-    final box = Hive.box<SettingsModel>(HiveBoxNames.settings);
-    SettingsModel? settings = box.get('app_settings');
-    
-    if (settings == null) {
-      settings = SettingsModel();
-      await box.put('app_settings', settings);
-    }
-    
+    final settings = await getSettings();
     emit(SettingsLoadedState(isDarkMode: settings.isDarkMode));
   }
 
   Future<void> _onToggleTheme(ToggleThemeEvent event, Emitter<SettingsState> emit) async {
-    final box = Hive.box<SettingsModel>(HiveBoxNames.settings);
-    SettingsModel? settings = box.get('app_settings');
-    
-    if (settings != null) {
-      settings.isDarkMode = event.isDarkMode;
-      await settings.save();
-      emit(SettingsLoadedState(isDarkMode: settings.isDarkMode));
-    }
+    final settings = await getSettings();
+    final updatedSettings = settings.copyWith(isDarkMode: event.isDarkMode);
+    await saveSettings(updatedSettings);
+    emit(SettingsLoadedState(isDarkMode: event.isDarkMode));
   }
 
   Future<void> _onClearAllData(ClearAllDataEvent event, Emitter<SettingsState> emit) async {
@@ -48,7 +43,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
       HiveBoxNames.places,
     ];
     
-    await HiveHelpers.clearAllData(boxesToClear);
+    await clearAllData(boxesToClear);
     emit(SettingsDataClearedState());
     
     // Reload settings just to go back to the normal loaded state

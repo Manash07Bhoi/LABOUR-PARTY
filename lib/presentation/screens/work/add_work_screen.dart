@@ -148,7 +148,6 @@ class _AddWorkScreenState extends State<AddWorkScreen> {
         labourIds: _selectedLabourIds,
         labourCount: _selectedLabourIds.length,
         totalAmount: totalAmount,
-        amountPerLabour: _calculatedAmountPerLabour,
         driverId: _selectedDriverId,
         driverName: _selectedDriverName,
         tractorId: _selectedTractorId,

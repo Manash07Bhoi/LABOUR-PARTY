@@ -29,9 +29,6 @@ class WorkModel extends HiveObject {
   @HiveField(7)
   final double totalAmount;
 
-  @HiveField(8)
-  final double amountPerLabour;
-
   @HiveField(9)
   final String? driverId;
 
@@ -62,7 +59,6 @@ class WorkModel extends HiveObject {
     required this.labourIds,
     required this.labourCount,
     required this.totalAmount,
-    required this.amountPerLabour,
     this.driverId,
     this.driverName,
     this.tractorId,
@@ -82,7 +78,6 @@ class WorkModel extends HiveObject {
       labourIds: work.labourIds,
       labourCount: work.labourCount,
       totalAmount: work.totalAmount,
-      amountPerLabour: work.amountPerLabour,
       driverId: work.driverId,
       driverName: work.driverName,
       tractorId: work.tractorId,
@@ -103,7 +98,6 @@ class WorkModel extends HiveObject {
       labourIds: labourIds,
       labourCount: labourCount,
       totalAmount: totalAmount,
-      amountPerLabour: amountPerLabour,
       driverId: driverId,
       driverName: driverName,
       tractorId: tractorId,
