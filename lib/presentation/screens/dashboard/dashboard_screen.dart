@@ -9,6 +9,7 @@ import '../../blocs/work/work_bloc.dart';
 import '../../widgets/glass_card.dart';
 import '../../widgets/skeleton_loaders.dart';
 import '../../widgets/error_state.dart';
+import '../work/work_detail_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
@@ -18,13 +19,6 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  @override
-  void initState() {
-    super.initState();
-    // Use read to avoid building issues if bloc isn't available right away
-    // In actual app, we dispatch this event somewhere root
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<WorkBloc, WorkState>(
@@ -155,12 +149,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
                   'Recent Activity',
                   style: AppTypography.headlineMedium,
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Navigate to works tab
-                  },
-                  child: const Text('View All'),
-                ),
               ],
             ),
           ),
@@ -215,7 +203,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: AppTypography.titleLarge.copyWith(color: AppColors.successGreen),
                     ),
                     onTap: () {
-                      // Navigate to detail
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => WorkDetailScreen(work: work)),
+                      );
                     },
                   ),
                 );

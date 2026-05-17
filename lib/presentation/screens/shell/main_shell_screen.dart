@@ -1,10 +1,14 @@
+import '../work/add_work_screen.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_typography.dart';
+import '../../blocs/work/work_bloc.dart';
 import '../dashboard/dashboard_screen.dart';
+import '../work/work_records_screen.dart';
 
-// Will implement other screens later
 class MainShellScreen extends StatefulWidget {
   const MainShellScreen({super.key});
 
@@ -17,9 +21,34 @@ class _MainShellScreenState extends State<MainShellScreen> {
 
   final List<Widget> _screens = [
     const DashboardScreen(),
-    const Center(child: Text('Work Records - TODO')), // WorkRecordsScreen
+    const WorkRecordsScreen(),
     const Center(child: Text('Reports - TODO')),      // ReportsScreen
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // Load initial data for dashboard and works
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<WorkBloc>().add(LoadDashboardDataEvent());
+    });
+  }
+
+  void _onTabTapped(int index) {
+    if (_currentIndex == index) return;
+    
+    setState(() {
+      _currentIndex = index;
+    });
+
+    if (index == 0) {
+      context.read<WorkBloc>().add(LoadDashboardDataEvent());
+    } else if (index == 1) {
+      context.read<WorkBloc>().add(LoadAllWorksEvent());
+    } else if (index == 2) {
+      // Load reports data
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,14 +107,13 @@ class _MainShellScreenState extends State<MainShellScreen> {
           ],
         ),
       ),
-      body: _screens[_currentIndex],
+      body: IndexedStack(
+        index: _currentIndex,
+        children: _screens,
+      ),
       bottomNavigationBar: NavigationBar(
         selectedIndex: _currentIndex,
-        onDestinationSelected: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        onDestinationSelected: _onTabTapped,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.dashboard_outlined),
@@ -106,7 +134,7 @@ class _MainShellScreenState extends State<MainShellScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AddWorkScreen()));
+          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const AddWorkScreen()));
         },
         child: const Icon(Icons.add),
       ),
