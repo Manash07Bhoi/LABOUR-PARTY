@@ -77,7 +77,9 @@ class _ReportsScreenState extends State<ReportsScreen> {
         Expanded(
           child: BlocBuilder<ReportsBloc, ReportsState>(
             builder: (context, state) {
-              if (state is ReportsLoadingState) {
+              if (state is ReportsInitial) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is ReportsLoadingState) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state is ReportsEmptyState) {
                 return const EmptyStateWidget(

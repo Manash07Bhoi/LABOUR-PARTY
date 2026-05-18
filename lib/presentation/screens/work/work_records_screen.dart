@@ -102,14 +102,49 @@ class _WorkRecordsScreenState extends State<WorkRecordsScreen> {
                     itemCount: state.works.length,
                     itemBuilder: (context, index) {
                       final work = state.works[index];
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 16),
-                        child: InkWell(
-                          borderRadius: BorderRadius.circular(20),
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => WorkDetailScreen(work: work)));
-                          },
-                          child: Padding(
+                      return Dismissible(
+                        key: Key(work.id),
+                        background: Container(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          decoration: BoxDecoration(
+                            color: AppColors.errorRed,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          alignment: Alignment.centerRight,
+                          padding: const EdgeInsets.only(right: 20),
+                          child: const Icon(Icons.delete, color: Colors.white),
+                        ),
+                        direction: DismissDirection.endToStart,
+                        confirmDismiss: (direction) async {
+                          return await showDialog<bool>(
+                            context: context,
+                            builder: (ctx) => AlertDialog(
+                              title: Text('Delete Work Record?', style: AppTypography.titleLarge.copyWith(color: AppColors.warningAmber)),
+                              content: Text('This action cannot be undone.', style: AppTypography.bodyMedium),
+                              actions: [
+                                TextButton(
+                                  onPressed: () => Navigator.of(ctx).pop(false),
+                                  child: Text('Cancel', style: AppTypography.labelLarge),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    context.read<WorkBloc>().add(DeleteWorkEvent(work.id));
+                                    Navigator.of(ctx).pop(true);
+                                  },
+                                  child: Text('Delete', style: AppTypography.labelLarge.copyWith(color: AppColors.errorRed)),
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                        child: Card(
+                          margin: const EdgeInsets.only(bottom: 16),
+                          child: InkWell(
+                            borderRadius: BorderRadius.circular(20),
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (_) => WorkDetailScreen(work: work)));
+                            },
+                            child: Padding(
                             padding: const EdgeInsets.all(16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -171,6 +206,7 @@ class _WorkRecordsScreenState extends State<WorkRecordsScreen> {
                               ],
                             ),
                           ),
+                        ),
                         ),
                       ).animate().fade(duration: 400.ms, delay: (index * 50).ms).slideY(begin: 0.1, end: 0);
                     },

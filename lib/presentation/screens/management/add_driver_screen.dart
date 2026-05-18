@@ -67,11 +67,40 @@ class _AddDriverScreenState extends State<AddDriverScreen> {
           );
         }
       },
-      child: Scaffold(
-        appBar: CustomAppBar(
-          title: widget.editDriver != null ? 'Edit Driver' : 'Add Driver',
-        ),
-        body: Form(
+      child: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) async {
+          if (didPop) return;
+          if (_nameController.text.isNotEmpty || _phoneController.text.isNotEmpty) {
+            final shouldPop = await showDialog<bool>(
+              context: context,
+              builder: (ctx) => AlertDialog(
+                title: Text('Discard changes?', style: AppTypography.titleLarge.copyWith(color: AppColors.warningAmber)),
+                content: Text('Your progress will be lost.', style: AppTypography.bodyMedium),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(false),
+                    child: Text('Keep Editing', style: AppTypography.labelLarge),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(ctx).pop(true),
+                    child: Text('Discard', style: AppTypography.labelLarge.copyWith(color: AppColors.errorRed)),
+                  ),
+                ],
+              ),
+            );
+            if (shouldPop ?? false) {
+              if (context.mounted) Navigator.of(context).pop();
+            }
+          } else {
+            if (context.mounted) Navigator.of(context).pop();
+          }
+        },
+        child: Scaffold(
+          appBar: CustomAppBar(
+            title: widget.editDriver != null ? 'Edit Driver' : 'Add Driver',
+          ),
+          body: Form(
           key: _formKey,
           child: ListView(
             padding: const EdgeInsets.all(16),
@@ -117,6 +146,7 @@ class _AddDriverScreenState extends State<AddDriverScreen> {
             ],
           ),
         ),
+      ),
       ),
     );
   }
