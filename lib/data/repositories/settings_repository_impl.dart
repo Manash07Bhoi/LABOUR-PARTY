@@ -12,23 +12,43 @@ class SettingsRepositoryImpl implements SettingsRepository {
     SettingsModel? settings = box.get('app_settings');
 
     if (settings == null) {
-      settings = SettingsModel();
-      await box.put('app_settings', settings);
+      settings = SettingsModel(
+        isDarkMode: true,
+        animationsEnabled: true,
+        currencySymbol: '₹',
+        dateFormat: 'dd/MM/yyyy',
+      );
+      await box.put('settings', settings);
     }
 
-    return Settings(isDarkMode: settings.isDarkMode, language: settings.languageCode);
+    return Settings(
+      isDarkMode: settings.isDarkMode,
+      animationsEnabled: settings.animationsEnabled,
+      currencySymbol: settings.currencySymbol,
+      dateFormat: settings.dateFormat,
+      userName: settings.userName,
+    );
   }
 
   @override
   Future<void> saveSettings(Settings settings) async {
     final box = Hive.box<SettingsModel>(HiveBoxNames.settings);
-    SettingsModel? model = box.get('app_settings');
+    SettingsModel? model = box.get('settings');
     if (model != null) {
       model.isDarkMode = settings.isDarkMode;
-      model.languageCode = settings.language;
+      model.animationsEnabled = settings.animationsEnabled;
+      model.currencySymbol = settings.currencySymbol;
+      model.dateFormat = settings.dateFormat;
+      model.userName = settings.userName;
       await model.save();
     } else {
-      await box.put('app_settings', SettingsModel(isDarkMode: settings.isDarkMode, languageCode: settings.language));
+      await box.put('settings', SettingsModel(
+        isDarkMode: settings.isDarkMode,
+        animationsEnabled: settings.animationsEnabled,
+        currencySymbol: settings.currencySymbol,
+        dateFormat: settings.dateFormat,
+        userName: settings.userName,
+      ));
     }
   }
 

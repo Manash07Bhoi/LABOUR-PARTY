@@ -33,11 +33,6 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
 
       final works = await workRepository.getWorksByDateRange(startOfDay, endOfDay);
 
-      if (works.isEmpty) {
-        emit(ReportsEmptyState());
-        return;
-      }
-
       double totalAmount = 0;
       int totalWorks = works.length;
       int totalSandTrips = 0;
@@ -93,11 +88,6 @@ class ReportsBloc extends Bloc<ReportsEvent, ReportsState> {
       final endOfDay = DateTime(event.year, event.month, daysInMonth, 23, 59, 59);
 
       final works = await workRepository.getWorksByDateRange(startOfDay, endOfDay);
-
-      if (works.isEmpty) {
-        emit(ReportsEmptyState());
-        return;
-      }
 
       double totalAmount = 0;
       int totalWorks = works.length;

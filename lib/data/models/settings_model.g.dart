@@ -18,21 +18,27 @@ class SettingsModelAdapter extends TypeAdapter<SettingsModel> {
     };
     return SettingsModel(
       isDarkMode: fields[0] as bool,
-      currencySymbol: fields[1] as String,
-      languageCode: fields[2] as String,
+      animationsEnabled: fields[1] as bool,
+      currencySymbol: fields[2] as String,
+      dateFormat: fields[3] as String,
+      userName: fields[4] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, SettingsModel obj) {
     writer
-      ..writeByte(3)
+      ..writeByte(5)
       ..writeByte(0)
       ..write(obj.isDarkMode)
       ..writeByte(1)
-      ..write(obj.currencySymbol)
+      ..write(obj.animationsEnabled)
       ..writeByte(2)
-      ..write(obj.languageCode);
+      ..write(obj.currencySymbol)
+      ..writeByte(3)
+      ..write(obj.dateFormat)
+      ..writeByte(4)
+      ..write(obj.userName);
   }
 
   @override

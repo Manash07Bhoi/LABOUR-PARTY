@@ -71,7 +71,16 @@ void main() async {
   await Hive.openBox<DriverModel>(HiveBoxNames.drivers);
   await Hive.openBox<TractorModel>(HiveBoxNames.tractors);
   await Hive.openBox<PlaceModel>(HiveBoxNames.places);
-  await Hive.openBox<SettingsModel>(HiveBoxNames.settings);
+  final settingsBox = await Hive.openBox<SettingsModel>(HiveBoxNames.settings);
+
+  if (settingsBox.isEmpty) {
+    settingsBox.put('settings', SettingsModel(
+      isDarkMode: true,
+      animationsEnabled: true,
+      currencySymbol: '₹',
+      dateFormat: 'dd/MM/yyyy',
+    ));
+  }
 
   runApp(const LabourPartyApp());
 }

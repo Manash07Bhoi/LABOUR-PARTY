@@ -20,6 +20,12 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   @override
+  void initState() {
+    super.initState();
+    context.read<WorkBloc>().add(LoadDashboardDataEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<WorkBloc, WorkState>(
       buildWhen: (previous, current) {
@@ -29,7 +35,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
       },
       builder: (context, state) {
         if (state is WorkInitial) {
-          context.read<WorkBloc>().add(LoadDashboardDataEvent());
           return const DashboardSkeletonLoader();
         } else if (state is WorkLoadingState) {
           return const DashboardSkeletonLoader();

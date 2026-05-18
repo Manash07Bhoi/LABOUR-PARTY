@@ -8,14 +8,22 @@ class SettingsModel extends HiveObject {
   bool isDarkMode;
 
   @HiveField(1)
-  String currencySymbol;
+  bool animationsEnabled;
 
   @HiveField(2)
-  String languageCode;
+  String currencySymbol;
+
+  @HiveField(3)
+  String dateFormat;
+
+  @HiveField(4)
+  String? userName;
 
   SettingsModel({
     this.isDarkMode = true, // Default per PRD
+    this.animationsEnabled = true,
     this.currencySymbol = '₹',
-    this.languageCode = 'en',
+    this.dateFormat = 'dd/MM/yyyy',
+    this.userName,
   });
 }

@@ -1,19 +1,31 @@
 class Settings {
   final bool isDarkMode;
-  final String language;
+  final bool animationsEnabled;
+  final String currencySymbol;
+  final String dateFormat;
+  final String? userName;
 
   Settings({
-    this.isDarkMode = false,
-    this.language = 'en',
+    this.isDarkMode = true,
+    this.animationsEnabled = true,
+    this.currencySymbol = '₹',
+    this.dateFormat = 'dd/MM/yyyy',
+    this.userName,
   });
 
   Settings copyWith({
     bool? isDarkMode,
-    String? language,
+    bool? animationsEnabled,
+    String? currencySymbol,
+    String? dateFormat,
+    String? userName,
   }) {
     return Settings(
       isDarkMode: isDarkMode ?? this.isDarkMode,
-      language: language ?? this.language,
+      animationsEnabled: animationsEnabled ?? this.animationsEnabled,
+      currencySymbol: currencySymbol ?? this.currencySymbol,
+      dateFormat: dateFormat ?? this.dateFormat,
+      userName: userName ?? this.userName,
     );
   }
 }
