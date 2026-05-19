@@ -73,13 +73,14 @@ class _PlaceScreenState extends State<PlaceScreen> {
         appBar: const CustomAppBar(title: 'Places'),
         body: BlocBuilder<PlaceBloc, PlaceState>(
           buildWhen: (previous, current) {
-            return current is PlaceLoadingState ||
+            return current is PlaceInitial ||
+                   current is PlaceLoadingState ||
                    current is PlaceLoadedState ||
                    current is PlaceEmptyState ||
                    current is PlaceErrorState;
           },
           builder: (context, state) {
-            if (state is PlaceLoadingState) {
+            if (state is PlaceInitial || state is PlaceLoadingState) {
               return const ListSkeletonLoader();
             } else if (state is PlaceEmptyState) {
               return EmptyStateWidget(

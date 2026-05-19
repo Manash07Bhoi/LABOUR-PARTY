@@ -55,7 +55,7 @@ class _DriverScreenState extends State<DriverScreen> {
       appBar: const CustomAppBar(title: 'Drivers'),
       body: BlocBuilder<DriverBloc, DriverState>(
         builder: (context, state) {
-          if (state is DriverLoadingState) {
+          if (state is DriverInitial || state is DriverLoadingState) {
             return const ListSkeletonLoader();
           } else if (state is DriverEmptyState) {
             return EmptyStateWidget(

@@ -10,12 +10,12 @@
 - [x] Creation of the initial `/memory-bank/` documentation.
 
 ### Pending Items:
-- [ ] Complete robust error handling in all BLoCs.
-- [ ] Finalize Hive data models and TypeAdapters.
-- [ ] Connect Presentation BLoCs to full UI components mapping all four required states.
-- [ ] Verify entirely offline execution across a fresh install.
+- [x] Complete robust error handling in all BLoCs.
+- [x] Finalize Hive data models and TypeAdapters.
+- [x] Connect Presentation BLoCs to full UI components mapping all four required states.
+- [x] Verify entirely offline execution across a fresh install.
 
 ### Audit Process:
 - [x] App Icon Replacement Task
-- [!] Codebase layer purity audit
-- [!] BLoC four-state coverage audit
+- [x] Codebase layer purity audit
+- [x] BLoC four-state coverage audit

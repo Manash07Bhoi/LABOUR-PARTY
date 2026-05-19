@@ -56,7 +56,7 @@ class _LabourScreenState extends State<LabourScreen> {
       appBar: const CustomAppBar(title: 'Labours'),
       body: BlocBuilder<LabourBloc, LabourState>(
         builder: (context, state) {
-          if (state is LabourLoadingState) {
+          if (state is LabourInitial || state is LabourLoadingState) {
             return const ListSkeletonLoader();
           } else if (state is LabourEmptyState) {
             return EmptyStateWidget(

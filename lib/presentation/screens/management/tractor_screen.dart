@@ -55,7 +55,7 @@ class _TractorScreenState extends State<TractorScreen> {
       appBar: const CustomAppBar(title: 'Tractors'),
       body: BlocBuilder<TractorBloc, TractorState>(
         builder: (context, state) {
-          if (state is TractorLoadingState) {
+          if (state is TractorInitial || state is TractorLoadingState) {
             return const ListSkeletonLoader();
           } else if (state is TractorEmptyState) {
             return EmptyStateWidget(
